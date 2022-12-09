@@ -30,3 +30,11 @@ export const getRoutes = (
 };
 
 export const containsNumbers = (str: string) => /\d/.test(str);
+
+/** up right down left */
+export const directionsVector = [
+  [-1, 0],
+  [0, 1],
+  [1, 0],
+  [0, -1],
+];

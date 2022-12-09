@@ -3,9 +3,10 @@ import { showTheResult } from '../../helpers/showTheResult';
 
 type Tree = { [key: string]: number };
 
-const MAX_SIZE = 100000;
-const FILESYSTEM_SPACE = 70000000;
-const MINIMUM_FREE_SPACE = 30000000;
+const MILION = 10 ** 6;
+const MAX_SIZE = 10 ** 5;
+const FILESYSTEM_SPACE = 70 * MILION;
+const MINIMUM_FREE_SPACE = 30 * MILION;
 
 (async () => {
   const input = (await getInputForDay(__filename)).trim().split('\n');
