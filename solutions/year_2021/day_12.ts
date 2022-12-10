@@ -24,7 +24,7 @@ import { showTheResult } from '../../helpers/showTheResult';
 
   const star1 = allPaths.length;
 
-  console.log({ allPaths });
+  // console.log({ allPaths });
 
   showTheResult({ star1, star2: 0, path: __filename });
 })();

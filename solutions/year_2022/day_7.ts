@@ -7,14 +7,15 @@ const MILION = 10 ** 6;
 const MAX_SIZE = 10 ** 5;
 const FILESYSTEM_SPACE = 70 * MILION;
 const MINIMUM_FREE_SPACE = 30 * MILION;
+const SEPARATOR = '-';
 
 (async () => {
   const input = (await getInputForDay(__filename)).trim().split('\n');
 
   const paths: string[] = [];
 
-  const addSizeToPaths = (tree: Tree, size: number) => {
-    for (let i = 0, key = paths[i]; i < paths.length; key += '-' + paths[++i]) {
+  const addSizeToPaths = (tree: Tree, size: number, i = 0) => {
+    for (let key = paths[i]; i < paths.length; key += SEPARATOR + paths[++i]) {
       tree[key] += size;
     }
   };
@@ -25,7 +26,7 @@ const MINIMUM_FREE_SPACE = 30 * MILION;
     `${a} ${b}` === '$ cd'
       ? c === '..'
         ? paths.pop()
-        : paths.push(c) && (tree[paths.join('-')] = 0)
+        : paths.push(c) && (tree[paths.join(SEPARATOR)] = 0)
       : !isNaN(+a) && addSizeToPaths(tree, +a);
 
     return tree;

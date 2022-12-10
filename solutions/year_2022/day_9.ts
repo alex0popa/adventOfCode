@@ -11,7 +11,7 @@ const directions = DIRECTIONS.reduce<{ [K in Dirs]?: number[] }>(
   {}
 );
 
-class Point {
+class Knot {
   x: number;
   y: number;
 
@@ -21,15 +21,13 @@ class Point {
   }
 
   /** Only head */
-  move(direction: Dirs) {
-    const [x, y] = directions[direction]!;
-
+  move(direction: Dirs, [x, y] = directions[direction]!) {
     this.x += x;
     this.y += y;
   }
 
   /** Not head */
-  follow(targetKnot: Point) {
+  follow(targetKnot: Knot) {
     /** Distance from this knot to target knot */
     const distance = Math.max(
       Math.abs(this.x - targetKnot.x),
@@ -59,36 +57,33 @@ class Point {
 const markVisited = (x: number, y: number, set: Set<string>) =>
   set.add(`${x}-${y}`);
 
-const getStar = (input: string[], numberOfKnots: number) => {
-  const knots = new Array(numberOfKnots).fill(0).map((_) => new Point(0, 0));
-  const tail = knots.slice(-1)[0];
-  const visited = new Set<string>();
+(async () => {
+  const input = (await getInputForDay(__filename)).trim().split('\n');
+  const knots = [...Array(10)].map(() => new Knot(0, 0));
+  const tail1 = knots.at(1);
+  const tail2 = knots.at(-1);
+  const visited1 = new Set<string>();
+  const visited2 = new Set<string>();
 
-  markVisited(0, 0, visited);
+  const markAll = () => {
+    tail1 && markVisited(tail1.x, tail1.y, visited1);
+    tail2 && markVisited(tail2.x, tail2.y, visited2);
+  };
 
   input.forEach((line) => {
-    let [direction, moves] = line.split(' ') as [Dirs, string | number];
-    moves = +moves;
+    const [direction, moves] = line.split(' ') as [Dirs, string];
 
-    while (moves--) {
+    for (let availableMoves = +moves; availableMoves--; markAll()) {
       knots.forEach((knot, i) => {
         const isHead = i === 0;
 
         isHead ? knot.move(direction) : knot.follow(knots[i - 1]);
       });
-
-      markVisited(tail.x, tail.y, visited);
     }
   });
 
-  return visited.size;
-};
-
-(async () => {
-  const input = (await getInputForDay(__filename)).trim().split('\n');
-
-  const star1 = getStar(input, 2);
-  const star2 = getStar(input, 10);
+  const star1 = visited1.size;
+  const star2 = visited2.size;
 
   showTheResult({ star1, star2, path: __filename });
 })();

@@ -14,11 +14,11 @@ type Coordinate = typeof coordinates[number];
 
   /** MaxLength */
   const ML = input.length;
-  const tallests: string[] = [];
+  const tallests = new Set<string>();
   let highestScenicScore = 0;
 
   const getHeightAndAddTallest = (tree: number, i: number, j: number) =>
-    input[i][j] > tree && tallests.push(i + '-' + j) ? input[i][j] : tree;
+    input[i][j] > tree && tallests.add(i + '-' + j) ? input[i][j] : tree;
 
   const handleHighestScenicScore = (row: number, col: number) => {
     const tree = input[row][col];
@@ -81,7 +81,7 @@ type Coordinate = typeof coordinates[number];
     }
   }
 
-  const visibleTrees = new Set(tallests).size + (input[0].length - 1) * 4;
+  const visibleTrees = tallests.size + (input[0].length - 1) * 4;
 
   showTheResult({
     star1: visibleTrees,

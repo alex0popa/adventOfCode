@@ -12,7 +12,7 @@ const day13 = async () => {
   const lines = Math.max(...coordinates.map((e) => +e[0])) + 1;
   const columns = Math.max(...coordinates.map((e) => +e[1])) + 1;
 
-  let map: string[][] = [...Array(lines)].map(() => Array(columns).fill('.'));
+  let map: string[][] = [...Array(lines)].map(() => Array(columns).fill(' '));
   coordinates.forEach(([x, y]) => (map[x][y] = '#'));
 
   const foldX = (x: number) => {
@@ -50,16 +50,13 @@ const day13 = async () => {
     instruction[0] === 'x' ? foldX(value) : foldY(value);
   });
 
-  const logPart2Answer = () => {
-    console.log('Answer of problem 13, part 2: \n');
-    for (let j = 0; j < map[0].length; ++j) {
-      let s = '';
-      for (let i = 0; i < map.length; ++i) {
-        s += map[i][j];
-      }
-      console.log(s);
+  for (let j = 0; j < map[0].length; ++j) {
+    let s = '';
+    for (let i = 0; i < map.length; ++i) {
+      s += map[i][j];
     }
-  };
+    console.log(s);
+  }
 
   const star2 = 'UEFZCUCJ';
 
