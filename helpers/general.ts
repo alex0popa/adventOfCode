@@ -38,3 +38,21 @@ export const directionsVector = [
   [1, 0],
   [0, -1],
 ];
+
+export const extractNumbers = (str: string) =>
+  (str.match(/\d+/g) ?? []).map(Number);
+
+/**
+ * Performing operations (+, *) on normal numbers, the values ​​will reach extremely
+ * high values ​​that cannot be held in a variable of type int or bigint, so the
+ * solution is to use Least Common Multiple - lcm.
+ *
+ * Want to know for each item if it is divisible by X, Y,.. (ex: 23, 19, 13, 17)
+ * If wanna know if it's divisible by 23, just need to keep track of the number modulo 23.
+ * x + a is divisible by 23 if (x % 23) + a is divisible by 23
+ * x * a is divisible by 23 if (x % 23) * a is divisible by 23
+ * Can keep track of the number modulo lcm (ex: 23 * 19 * 13 * 17);
+ *
+ * Ex: day 11 2022
+ */
+export const getLcm = (a: number[]) => a.reduce((lcm, item) => lcm * item, 1);
