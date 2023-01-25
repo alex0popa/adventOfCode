@@ -1,3 +1,16 @@
+type OneToNine = '' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+type ZeroToNine = '0' | OneToNine;
+type ZeroTo99 =
+  | `${OneToNine}${ZeroToNine}`
+  | '100'
+  | '101'
+  | '102'
+  | '103'
+  | '108'
+  | '109'
+  | '110'
+  | '111';
+
 export const isCapital = (char: string) => /[A-Z]/.test(char);
 
 /** Can get uppercase or lowercase alphabet as array */
@@ -37,10 +50,10 @@ export const directionsVector = [
   [0, 1],
   [1, 0],
   [0, -1],
-];
+] as const;
 
 export const extractNumbers = (str: string) =>
-  (str.match(/\d+/g) ?? []).map(Number);
+  (str.match(/-?\d+/g) ?? []).map(Number);
 
 /**
  * Performing operations (+, *) on normal numbers, the values ​​will reach extremely

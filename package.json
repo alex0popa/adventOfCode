@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "day": "ts-node server.ts",
+    "test": "nodemon test.ts",
     "dev": "nodemon server.ts"
   },
   "author": "alex0popa",
