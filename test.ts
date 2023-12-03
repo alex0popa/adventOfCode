@@ -24,4 +24,4 @@ function merge(arr: number[], start: number, mid: number, end: number) {
   }
 }
 
-console.log(mergeSort([5, 9, 2, 4]));
+console.log(mergeSort([5, 9, 2, 4, 8]));
