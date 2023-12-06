@@ -8,30 +8,50 @@ type Card = {
   winingNumbers: number[]
 };
 
-const getPoints = (matchedNumbers: number) => matchedNumbers < 3 ? matchedNumbers : Math.pow(2, matchedNumbers - 1)
+const getPoints = (matchedNumbers: number) => {
+  return matchedNumbers < 3 ? matchedNumbers : Math.pow(2, matchedNumbers - 1);
+}
 
-const getMatchedNumbers = ({ myNumbers, winingNumbers }: Card) => myNumbers.reduce(
-  (total, myNumber) => winingNumbers.includes(myNumber) ? total + 1: total,
-  0
-);
+const getMatchedNumbers = ({ myNumbers, winingNumbers }: Card) => {
+  return myNumbers.reduce(
+    (total, myNumber) => winingNumbers.includes(myNumber) ? total + 1: total,
+    0
+  );
+}
+
+const extractDataStructure = (input: string[]) => {
+  return input.reduce<{ copies: number; matchedNumbers: number }[]>(
+    (cards, line) => {
+      const [winingNumbers, myNumbers] = line
+        .split(': ')[1]
+        .split(' | ')
+        .map(extractNumbers);
+
+      return [
+        ...cards,
+        {
+          copies: 1,
+          matchedNumbers: getMatchedNumbers({ winingNumbers, myNumbers })
+        }
+      ];
+    },
+    []
+  );
+};
 
 (async () =>  {
   const input = (await getInputForDay(__filename)).trim().split('\n');
-  const cards = input
-    .map(line => line.split(': ')[1].split(' | ').map(extractNumbers))
-    .map(([winingNumbers, myNumbers]) => ({
-      copies: 1,
-      matchedNumbers: getMatchedNumbers({ winingNumbers, myNumbers })
-    }));
+  const cards = extractDataStructure(input);
 
   const { star1, star2} = cards.reduce(
     ({ star1, star2 }, { copies, matchedNumbers }, idx) => {
-    for (let i = 1; i <= matchedNumbers; ++i) cards[idx + i].copies += copies
+      star1 += getPoints(matchedNumbers);
 
-    star1 += getPoints(matchedNumbers);
-    star2 += copies;
+      for (let i = 1; i <= matchedNumbers; ++i) cards[idx + i].copies += copies;
+      
+      star2 += copies;
 
-    return { star1, star2 }
+      return { star1, star2 }
     },
     { star1: 0, star2: 0 }
   );
