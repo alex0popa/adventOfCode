@@ -1,16 +1,3 @@
-type OneToNine = '' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-type ZeroToNine = '0' | OneToNine;
-type ZeroTo99 =
-  | `${OneToNine}${ZeroToNine}`
-  | '100'
-  | '101'
-  | '102'
-  | '103'
-  | '108'
-  | '109'
-  | '110'
-  | '111';
-
 export const isCapital = (char: string) => /[A-Z]/.test(char);
 
 /** Can get uppercase or lowercase alphabet as array */
