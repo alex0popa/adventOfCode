@@ -55,6 +55,14 @@ export const directionsVector = [
 export const extractNumbers = (str: string) =>
   (str.match(/-?\d+/g) ?? []).map(Number);
 
+export const extractLetterGroups = (inputString: string): string[] => {
+  const letterGroups = inputString.match(/[a-zA-Z]+/g);
+
+  return letterGroups ? letterGroups : [];
+};
+
+// greatest common divisor (GCD)
+const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
 /**
  * Performing operations (+, *) on normal numbers, the values ​​will reach extremely
  * high values ​​that cannot be held in a variable of type int or bigint, so the
@@ -68,4 +76,12 @@ export const extractNumbers = (str: string) =>
  *
  * Ex: day 11 2022
  */
-export const getLcm = (a: number[]) => a.reduce((lcm, item) => lcm * item, 1);
+export const getLcm = (numbers: number[]): number => {
+  let result = numbers[0];
+
+  for (let i = 1; i < numbers.length; i++) {
+    result = (result * numbers[i]) / gcd(result, numbers[i]);
+  }
+  
+  return result;
+}
