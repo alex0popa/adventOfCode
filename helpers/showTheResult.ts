@@ -21,4 +21,5 @@ const displayResult = ({ star1, star2, path }: Stars, i?: number) => {
 
 export const showTheResult = (res: Stars) => {
   console.log(`\x1b[1;94m%s\x1b[0m`, displayResult(res));
+  console.timeEnd('time');
 };

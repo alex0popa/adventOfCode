@@ -72,3 +72,5 @@ export const getLcm = (numbers: number[]): number => {
   
   return result;
 }
+
+export const sumArray = (arr: number[]) => arr.reduce((a, b) => a + b);
