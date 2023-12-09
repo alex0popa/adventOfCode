@@ -39,17 +39,17 @@ export const directionsVector = [
   [0, -1],
 ] as const;
 
-export const extractNumbers = (str: string) =>
-  (str.match(/-?\d+/g) ?? []).map(Number);
+export const extractNumbers = (str: string) =>{
+ return (str.match(/-?\d+/g) ?? []).map(Number);
+};
 
 export const extractLetterGroups = (inputString: string): string[] => {
-  const letterGroups = inputString.match(/[a-zA-Z]+/g);
-
-  return letterGroups ? letterGroups : [];
+  return inputString.match(/[a-zA-Z]+/g) ?? [];
 };
 
 // greatest common divisor (GCD)
 const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
+
 /**
  * Performing operations (+, *) on normal numbers, the values ​​will reach extremely
  * high values ​​that cannot be held in a variable of type int or bigint, so the
@@ -60,8 +60,6 @@ const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
  * x + a is divisible by 23 if (x % 23) + a is divisible by 23
  * x * a is divisible by 23 if (x % 23) * a is divisible by 23
  * Can keep track of the number modulo lcm (ex: 23 * 19 * 13 * 17);
- *
- * Ex: day 11 2022
  */
 export const getLcm = (numbers: number[]): number => {
   let result = numbers[0];
@@ -71,6 +69,6 @@ export const getLcm = (numbers: number[]): number => {
   }
   
   return result;
-}
+};
 
 export const sumArray = (arr: number[]) => arr.reduce((a, b) => a + b);
