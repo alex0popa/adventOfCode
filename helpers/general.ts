@@ -33,10 +33,10 @@ export const containsNumbers = (str: string) => /\d/.test(str);
 
 /** up right down left */
 export const directionsVector = [
-  [-1, 0],
-  [0, 1],
-  [1, 0],
-  [0, -1],
+  [-1, 0], // N
+  [0, 1],  // E
+  [1, 0],  // S
+  [0, -1], // W
 ] as const;
 
 export const extractNumbers = (str: string) =>{
