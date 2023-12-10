@@ -18,13 +18,13 @@ const getFuture = (history: number[]): number => {
 
   const newHistory = getNewHistory(history);
 
-  return history.slice(-1)[0] + getFuture(newHistory);
+  return history[history.length - 1] + getFuture(newHistory);
 }
 
 const getPast = (history: number[]): number => {
   const past: number[] = [];
   
-  while (history.some(number => number !== 0)) {
+  while (history.some(Boolean)) {
     past.unshift(history[0]);
 
     history = getNewHistory(history);;
