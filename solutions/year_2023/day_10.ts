@@ -2,7 +2,7 @@
 
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
-import { typedObjEntries } from '../../helpers/typescript';
+import { Point, typedObjEntries } from '../../helpers/typescript';
 
 type Direction = typeof DIRECTIONS[number];
 type Vector = [-1 |0 | 1, -1 | 0 |1];
@@ -14,7 +14,6 @@ type DirectionsMap = {
 }
 
 type Grid = (Tile | 'S' | '.')[][];
-type Point = { row: number, col: number };
 type Tile = typeof TILES[number];
 
 const DIRECTIONS = ['N', 'S', 'E', 'W'] as const;

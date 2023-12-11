@@ -11,6 +11,9 @@ type ZeroTo99 =
   | '110'
   | '111';
 
+export type Point = { row: number, col: number };
+export type Vector = [(-1 | 0 | 1), (-1 | 0 | 1)];
+
 export function typedObjEntries<T extends object>(obj: T): Array<[keyof T, T[keyof T]]> {
   return Object.entries(obj) as Array<[keyof T, T[keyof T]]>;
 }
