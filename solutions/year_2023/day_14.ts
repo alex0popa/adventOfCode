@@ -31,8 +31,8 @@ while (Object.values(cache).every(value => value === 1)) {
 }
 
 const cachedValues = Object.values(cache);
-const firstDuplicateIndex = cachedValues.findIndex(value => value > 1) ?? 0;
-const cacheValueIdx = firstDuplicateIndex + spinLoop % (cachedValues.length - firstDuplicateIndex);
+const firstDuplicatedIndex = cachedValues.findIndex(value => value > 1) ?? 0;
+const cacheValueIdx = firstDuplicatedIndex + spinLoop % (cachedValues.length - firstDuplicatedIndex);
 
 // extract matrix from cache
 const [key] = Object.entries(cache)[cacheValueIdx];
