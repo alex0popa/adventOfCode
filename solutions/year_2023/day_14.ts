@@ -13,12 +13,12 @@ const input = (await getInputForDay(__filename))
 const star1 = getStar1(input);
 
 let cacheKey = getMatrixAsKey(input);
-let spinLoop = 0;
+let spinLoop = CYCLES;
 
 const cache: { [key: string]: number } = { [cacheKey]: 1 };
 
 while (Object.values(cache).every(value => value === 1)) {
-  ++spinLoop;
+  --spinLoop;
 
   spinToNorth(input);
   spinToWest(input);
@@ -30,18 +30,9 @@ while (Object.values(cache).every(value => value === 1)) {
   cache[cacheKey] = (cache[cacheKey] ?? 0) + 1;
 }
 
-
 const cachedValues = Object.values(cache);
 const firstDuplicateIndex = cachedValues.findIndex(value => value > 1) ?? 0;
-let cacheValueIdx = firstDuplicateIndex;
-
-while(spinLoop++ < CYCLES) {
-  cacheValueIdx = ((cacheValueIdx + 1) < (cachedValues.length) ? (cacheValueIdx + 1) : firstDuplicateIndex);
-
-  // ! even if this version is more elegant, it doubles the execution time from 2 to over 4 seconds
-  // cacheValueIdx = (cacheValueIdx + 1) % cachedValues.length;
-
-}
+const cacheValueIdx = firstDuplicateIndex + spinLoop % (cachedValues.length - firstDuplicateIndex);
 
 // extract matrix from cache
 const [key] = Object.entries(cache)[cacheValueIdx];
