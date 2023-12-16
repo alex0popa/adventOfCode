@@ -39,6 +39,13 @@ export const directionsVector = [
   [0, -1], // W
 ] as const;
 
+export const mapVectors = {
+  N: [-1, 0],
+  E: [0, 1],
+  S: [1, 0],
+  W: [0, -1]
+} as const;
+
 export const extractNumbers = (str: string) =>{
  return (str.match(/-?\d+/g) ?? []).map(Number);
 };
