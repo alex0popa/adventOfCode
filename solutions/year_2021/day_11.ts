@@ -50,7 +50,7 @@ const day11 = async () => {
 
       vector.forEach(
         ([a, b]) =>
-          input[i + a][j + b] > 0 && (flashed += computeFlash(i + a, j + b))
+          +input[i + a][j + b] > 0 && (flashed += computeFlash(i + a, j + b)),
       );
     }
 

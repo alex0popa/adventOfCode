@@ -11,6 +11,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "outDir": "./dist"
   },
   "include": ["solutions/**/*", "server.ts"],
   "exclude": ["node_modules"]

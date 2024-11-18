@@ -1,3 +1,5 @@
+import { Direction } from './typescript';
+
 export const isCapital = (char: string) => /[A-Z]/.test(char);
 
 /** Can get uppercase or lowercase alphabet as array */
@@ -9,7 +11,7 @@ export const getRoutes = (
   routes: { [key: string]: string[] },
   start: string,
   end: string,
-  visitedCondition = (param: string) => true
+  visitedCondition = (param: string) => true,
 ) => {
   const stack: [string, string[]][] = [[start, []]];
   const result: string[][] = [];
@@ -34,20 +36,58 @@ export const containsNumbers = (str: string) => /\d/.test(str);
 /** up right down left */
 export const directionsVector = [
   [-1, 0], // N
-  [0, 1],  // E
-  [1, 0],  // S
+  [0, 1], // E
+  [1, 0], // S
   [0, -1], // W
 ] as const;
 
-export const mapVectors = {
+/** Visit all adjacent positions from a given point */
+export const visitDirections = <T>(
+  row: number,
+  col: number,
+  callback: (newRow: number, newCol: number) => T,
+): T[] => {
+  return directionsVector.map(([dRow, dCol]) => {
+    const newRow = row + dRow;
+    const newCol = col + dCol;
+
+    return callback(newRow, newCol);
+  });
+};
+
+const aroundDirectionsVector = [
+  [-1, 0], // N
+  [-1, 1], // NE
+  [0, 1], // E
+  [1, 1], // SE
+  [1, 0], // S
+  [1, -1], // SW
+  [0, -1], // W
+  [-1, -1], // NW
+] as const;
+
+export const visitAround = <T>(
+  row: number,
+  col: number,
+  callback: (newRow: number, newCol: number) => T,
+): T[] => {
+  return aroundDirectionsVector.map(([dRow, dCol]) => {
+    const newRow = row + dRow;
+    const newCol = col + dCol;
+
+    return callback(newRow, newCol);
+  });
+};
+
+export const mapVectors: { [key in Direction]: [-1 | 0 | 1, -1 | 0 | 1] } = {
   N: [-1, 0],
   E: [0, 1],
   S: [1, 0],
-  W: [0, -1]
-} as const;
+  W: [0, -1],
+};
 
-export const extractNumbers = (str: string) =>{
- return (str.match(/-?\d+/g) ?? []).map(Number);
+export const extractNumbers = (str: string) => {
+  return (str.match(/-?\d+/g) ?? []).map(Number);
 };
 
 export const extractLetterGroups = (inputString: string): string[] => {
@@ -55,7 +95,7 @@ export const extractLetterGroups = (inputString: string): string[] => {
 };
 
 // greatest common divisor (GCD)
-const gcd = (a: number, b: number): number => b === 0 ? a : gcd(b, a % b);
+const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
 
 /**
  * Performing operations (+, *) on normal numbers, the values ​​will reach extremely
@@ -74,7 +114,7 @@ export const getLcm = (numbers: number[]): number => {
   for (let i = 1; i < numbers.length; i++) {
     result = (result * numbers[i]) / gcd(result, numbers[i]);
   }
-  
+
   return result;
 };
 

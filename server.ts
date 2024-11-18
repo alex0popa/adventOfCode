@@ -2,25 +2,28 @@ import { existsSync, writeFile } from 'fs';
 import { exec } from 'child_process';
 import { getPuzzle } from './helpers/getPuzzle';
 
-const day = process.argv[2] ?? new Date().getDate().toString();
-const year = process.argv[3] ?? new Date().getFullYear().toString();
+const now = new Date();
+const thisDay = now.getDate();
+const thisMonth = now.getMonth();
+const thisYear = now.getFullYear();
 
-const BOILERPLATE = `
+const [, , day = thisDay, year = thisYear] = process.argv;
 
-import { getInputForDay } from '../../helpers/getInputForDay';
+const BOILERPLATE = `import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
 (async () =>  {
   console.time('time');
   const input = (await getInputForDay(__filename)).trim().split('\\n');
 
-  console.log({ input });
+  console.log({ day: __filename, input });
 
   showTheResult({ star1: 'WIP...', star2: 'WIP...', path: __filename });
+  console.timeEnd('time');
 })();
 `;
 
-const execDay = () =>
+const execDay = () => {
   exec(
     `ts-node solutions/year_${year}/day_${day}.ts`,
     (error, stdout, stderr) => {
@@ -30,11 +33,13 @@ const execDay = () =>
       if (error !== null) {
         console.log(`exec error: ${error}`);
       }
-    }
+    },
   );
+};
 
-const addBoilerPlate = () =>
+const addBoilerPlate = () => {
   writeFile(`solutions/year_${year}/day_${day}.ts`, BOILERPLATE, execDay);
+};
 
 const go = async () => {
   const finalPath = `/year_${year}/day_${day}`;
@@ -44,11 +49,30 @@ const go = async () => {
   existsSync(`solutions${finalPath}.ts`) ? execDay() : addBoilerPlate();
 };
 
-+day > 25
-  ? console.log(`\x1b[1;91m%s\x1b[0m`, ` !! - Day out of range - !! [1, 25]`)
-  : +year < 2015 || +year > new Date().getFullYear()
-  ? console.log(
+(() => {
+  if (+day > 25) {
+    console.log(`\x1b[1;91m%s\x1b[0m`, ` !! - Day out of range - !! [1, 25]`);
+
+    return;
+  }
+
+  if (+year < 2015 || +year > thisYear) {
+    console.log(
       `\x1b[1;91m%s\x1b[0m`,
-      ` !! - Year out of range - !! [2015, ${new Date().getFullYear()}]`
-    )
-  : go();
+      ` !! - Year out of range - !! [2015, ${thisYear}]`,
+    );
+
+    return;
+  }
+
+  if (+year === thisYear && thisMonth < 11) {
+    console.log(
+      `\x1b[1;91m%s\x1b[0m`,
+      ` !! - Date not valid - !! ${thisDay}-${thisMonth}-${thisYear}`,
+    );
+
+    return;
+  }
+
+  go();
+})();

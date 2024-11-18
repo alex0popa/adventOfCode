@@ -21,3 +21,10 @@ export function typedObjEntries<T extends object>(obj: T): Array<[keyof T, T[key
 export function typedObjKeys<T extends object>(obj: T): Array<keyof T> {
   return Object.keys(obj) as Array<keyof T>;
 }
+
+export enum Direction {
+  N = 'N',
+  E = 'E',
+  S = 'S',
+  W = 'W'
+}
