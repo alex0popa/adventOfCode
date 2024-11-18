@@ -1,25 +1,30 @@
 type Stars = { star1: number | string; star2: number | string; path: string };
 
+const fill = (length: number, fillChar: '-' | ' ') => {
+  return [...Array(length).fill(fillChar)].join('')
+}
+
 const displayResult = ({ star1, star2, path }: Stars, i?: number) => {
   const day = +path.split('day_')[1].replace('.ts', '');
-  const maxLenght = Math.max(`${star1}`.length, `${star2}`.length);
+  const maxLength = Math.max(`${star1}`.length, `${star2}`.length);
 
-  const titleEnd = maxLenght + (day > 9 ? 1 : 2);
+  const titleEnd = maxLength + (day > 9 ? 1 : 2);
 
-  const s1 = maxLenght - `${star1}`.length;
-  const s2 = maxLenght - `${star2}`.length;
+  const s1 = maxLength - `${star1}`.length;
+  const s2 = maxLength - `${star2}`.length;
+  const horizontalLine = fill(maxLength + 13, '-');
 
   return `
-     ${[...Array(maxLenght + 13).fill('-')].join('')}
-    |      day_${day}${[...Array(titleEnd).fill(' ')].join('')}|
-    |${[...Array(maxLenght + 13).fill(' ')].join('')}|
-    |  star1 => ${star1}${[...Array(s1).fill(' ')].join('')}  |
-    |  star2 => ${star2}${[...Array(s2).fill(' ')].join('')}  |
-     ${[...Array(maxLenght + 13).fill('-')].join('')}
+     ${horizontalLine}
+    |      day_${day}${fill(titleEnd, ' ')}|
+    |${horizontalLine}|
+    |  star1 => ${star1}${fill(s1, ' ')}  |
+    |  star2 => ${star2}${fill(s2, ' ')}  |
+     ${horizontalLine}
     `;
 };
 
-export const showTheResult = (res: Stars) => {
-  console.log(`\x1b[1;94m%s\x1b[0m`, displayResult(res));
-  console.timeEnd('time');
+export const showTheResult = (result: Stars) => {
+  const textColor = `\x1b[34m`;
+  console.log(textColor, displayResult(result));
 };

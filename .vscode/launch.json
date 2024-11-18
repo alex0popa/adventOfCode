@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Current Day",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/server.ts",
+      "outFiles": ["${workspaceFolder}/**/*.js"],
+      "preLaunchTask": "tsc: build - tsconfig.json",
+      "args": ["${input:day}", "${input:year}"],
+      "console": "integratedTerminal"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "day",
+      "type": "promptString",
+      "description": "Enter the day number (1-25)",
+      "default": "${command:extension.node-debug2.pickLoadedScript}"
+    },
+    {
+      "id": "year",
+      "type": "promptString",
+      "description": "Enter the year",
+      "default": "2023"
+    }
+  ]
+}

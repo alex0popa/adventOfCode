@@ -53,21 +53,19 @@ const testInput =
 .####.###..`;
 
 const isPerfectReflection = (model: string[], idx: number) => {
-  let ok = idx % 2 === 1;
-
-  for (let i = 0; i <= idx / 2 && ok; ++i) {
+  for (let i = 0; i <= idx / 2; ++i) {
     if(model[i] !== model[idx - i]) {
-      ok = false;
+      return false;
     }
   }
 
-  return ok;
+  return true;
 }
 
 const checkHorizontally = (model: string[]): number => {
   let targetLine = model[0];
 
-  for(let i = 1; i < model.length; ++i) {
+  for(let i = 1; i < model.length; i += 2) {
     if(targetLine === model[i]) {
       if(isPerfectReflection(model, i)) {
 
@@ -80,7 +78,7 @@ const checkHorizontally = (model: string[]): number => {
 
   targetLine = model[0];
 
-  for(let i = 1; i < model.length; ++i) {
+  for(let i = 1; i < model.length; i += 2) {
     if(targetLine === model[i]) {
       if(isPerfectReflection(model, i)) {
 
@@ -110,24 +108,17 @@ const extractPatterns = (input: string[]) => {
   return patterns;
 }
 
-(async () =>  {
-  console.time('time');
-  const input = (await getInputForDay(__filename)).split('\n');
-  // const input = [...testInput.trim().split('\n'), ''];
-
-  const patterns = extractPatterns(input);
-
+const getStar1 = (patterns: string[][]) => {
   let star1 = 0;
 
-  for (let idx = 0; idx < patterns.length; ++idx) {
-    let targetLines = 100 * checkHorizontally([...patterns[idx]]);
+  for (const pattern of patterns) {
+    let targetLines = 100 * checkHorizontally([...pattern]);
 
     if(targetLines === 0 || (targetLines % 2)) {
-      const matrix = [...patterns[idx]];
+      const matrix = [...pattern];
       const verticalModel: string[] = [];
 
       for (let j = 0; j < matrix[0].length; j++) {
-        const element = matrix[j];
         let line = '';
         
         for (let i = matrix.length - 1; i >= 0; --i) {
@@ -142,6 +133,18 @@ const extractPatterns = (input: string[]) => {
     
     star1 += targetLines;
   }
+
+  return star1;
+}
+
+(async () =>  {
+  console.time('time');
+  const input = (await getInputForDay(__filename)).split('\n');
+  // const input = [...testInput.trim().split('\n'), ''];
+
+  const patterns = extractPatterns(input);
+  const star1 = getStar1([...patterns]);
+  
 
   showTheResult({ star1, star2: 'WIP...', path: __filename });
 })();
