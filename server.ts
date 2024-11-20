@@ -16,7 +16,7 @@ import { showTheResult } from '../../helpers/showTheResult';
   console.time('time');
   const input = (await getInputForDay(__filename)).trim().split('\\n');
 
-  console.log({ day: __filename, input });
+  console.log(input);
 
   showTheResult({ star1: 'WIP...', star2: 'WIP...', path: __filename });
   console.timeEnd('time');
