@@ -33,13 +33,15 @@ export const getRoutes = (
 
 export const containsNumbers = (str: string) => /\d/.test(str);
 
+export const directionsVectorMap = {
+  N: [-1, 0],
+  E: [0, 1],
+  S: [1, 0],
+  W: [0, -1],
+} as const;
+
 /** up right down left */
-export const directionsVector = [
-  [-1, 0], // N
-  [0, 1], // E
-  [1, 0], // S
-  [0, -1], // W
-] as const;
+export const directionsVector = Object.values(directionsVectorMap);
 
 /** Visit all adjacent positions from a given point */
 export const visitDirections = <T>(
