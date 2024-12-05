@@ -1,5 +1,3 @@
-import { Direction } from './typescript';
-
 export const isCapital = (char: string) => /[A-Z]/.test(char);
 
 /** Can get uppercase or lowercase alphabet as array */
@@ -57,7 +55,7 @@ export const visitDirections = <T>(
   });
 };
 
-const aroundDirectionsVector = [
+export const aroundDirectionsVector = [
   [-1, 0], // N
   [-1, 1], // NE
   [0, 1], // E
@@ -79,13 +77,6 @@ export const visitAround = <T>(
 
     return callback(newRow, newCol);
   });
-};
-
-export const mapVectors: { [key in Direction]: [-1 | 0 | 1, -1 | 0 | 1] } = {
-  N: [-1, 0],
-  E: [0, 1],
-  S: [1, 0],
-  W: [0, -1],
 };
 
 export const extractNumbers = (str: string) => {
