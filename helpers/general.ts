@@ -112,3 +112,29 @@ export const getLcm = (numbers: number[]): number => {
 };
 
 export const sumArray = (arr: number[]) => arr.reduce((a, b) => a + b);
+
+/**
+ * Generates all permutations of the input array.
+ * Each permutation contains all numbers in the array exactly once.
+ * @param arr - The input array of numbers.
+ * @returns An array containing all permutations of the input array.
+ */
+export const generatePermutations = (arr: number[]): number[][] => {
+  const result: number[][] = [];
+
+  const permute = (current: number[], remaining: number[]) => {
+    if (remaining.length === 0) {
+      result.push([...current]);
+      return;
+    }
+
+    for (let i = 0; i < remaining.length; i++) {
+      const next = remaining[i];
+      const newRemaining = remaining.slice(0, i).concat(remaining.slice(i + 1));
+      permute([...current, next], newRemaining);
+    }
+  };
+
+  permute([], arr);
+  return result;
+};
