@@ -1,15 +1,13 @@
-
-
-import { mapVectors } from '../../helpers/general';
+import { directionsVectorMap } from '../../helpers/general';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
-type Direction = 'U' | 'R'| 'D' | 'L';
+type Direction = 'U' | 'R' | 'D' | 'L';
 
 type Instruction = {
-  direction: Direction, 
-  value: number, 
-  color: string 
+  direction: Direction;
+  value: number;
+  color: string;
 };
 
 const testInput = `R 6 (#70c710)
@@ -27,34 +25,32 @@ U 3 (#a77fa3)
 L 2 (#015232)
 U 2 (#7a21e3)`;
 
-(async () =>  {
+(async () => {
   console.time('time');
   const input = (await getInputForDay(__filename))
-  // const input = testInput
+    // const input = testInput
     .trim()
     .split('\n')
-    .map<Instruction>(line => {
+    .map<Instruction>((line) => {
       const [direction, value, color] = line.split(' ');
 
       return { direction: direction as Direction, value: +value, color };
     });
 
   let [row, col] = [0, 0];
-  
-  const rowsMap = new Map<number, {direction: Direction; col: number}[]>();
 
-  for(const { direction, value } of input) {
-    let [x, y] = mapVectors.N.map(Number);
+  const rowsMap = new Map<number, { direction: Direction; col: number }[]>();
 
-    if(direction === 'R') [x, y] = mapVectors.E
-    
+  for (const { direction, value } of input) {
+    let [x, y] = directionsVectorMap.N.map(Number);
 
-    if(direction === 'D') [x, y] = mapVectors.S
-    
+    if (direction === 'R') [x, y] = directionsVectorMap.E;
 
-    if(direction === 'L') [x, y] = mapVectors.W
-    
-    for(let i = 0; i < value; ++i) {
+    if (direction === 'D') [x, y] = directionsVectorMap.S;
+
+    if (direction === 'L') [x, y] = directionsVectorMap.W;
+
+    for (let i = 0; i < value; ++i) {
       row += x;
       col += y;
 
@@ -62,34 +58,43 @@ U 2 (#7a21e3)`;
     }
   }
 
-  const rows = Array.from(rowsMap.values())
-    .map((elements) => elements.sort((a, b) => a.col - b.col));
-  
+  const rows = Array.from(rowsMap.values()).map((elements) =>
+    elements.sort((a, b) => a.col - b.col),
+  );
+
   let star1 = 0;
 
-  for(let j = 0; j < rows.length; ++j) {
+  for (let j = 0; j < rows.length; ++j) {
     const row = rows[j];
-    const upDown = [...row].filter(({ direction }) => ['U', 'D'].includes(direction));
+    const upDown = [...row].filter(({ direction }) =>
+      ['U', 'D'].includes(direction),
+    );
     let cubicMeters = 0;
 
-    if(upDown.length % 2) console.log('% upDown -> ', j);
+    if (upDown.length % 2) console.log('% upDown -> ', j);
 
-    if(upDown.length > 1) {
+    if (upDown.length > 1) {
       let startCol: number | undefined;
       for (let i = 0; i < row.length; ++i) {
         const { col, direction } = row[i];
-        
-        if(['L', 'R'].includes(direction) && typeof startCol === 'undefined') {
+
+        if (['L', 'R'].includes(direction) && typeof startCol === 'undefined') {
           ++cubicMeters;
-        } else if (!['L', 'R'].includes(direction) && typeof startCol === 'undefined') {
+        } else if (
+          !['L', 'R'].includes(direction) &&
+          typeof startCol === 'undefined'
+        ) {
           startCol = col;
           ++cubicMeters;
-        } else if(!['L', 'R'].includes(direction) && typeof startCol === 'number') {
+        } else if (
+          !['L', 'R'].includes(direction) &&
+          typeof startCol === 'number'
+        ) {
           const val = col - startCol;
 
           cubicMeters += val;
 
-          startCol = undefined
+          startCol = undefined;
         }
       }
     } else {
@@ -104,7 +109,7 @@ U 2 (#7a21e3)`;
   // 34540 low
   // 34582 low
   showTheResult({ star1, star2: 'WIP...', path: __filename });
-})(); 
+})();
 //   0123456
 // 0 #######  7
 // 1 #.....#  7
@@ -116,7 +121,6 @@ U 2 (#7a21e3)`;
 // 7 ##..###  7
 // 8 .#....#  6
 // 9 .######  6
-
 
 //   0123456
 // 0 ##########  7
@@ -130,10 +134,8 @@ U 2 (#7a21e3)`;
 // 8 .#..#..#...#  6
 // 9 .####..#####  6
 
-
-
 // let [R ,L ,D , U] = [0, 0, 0, 0];
- 
+
 //   input.forEach(({ direction, value }) => {
 //     if(direction === 'U') ++U;
 //     if(direction === 'R') ++R;
@@ -147,7 +149,6 @@ U 2 (#7a21e3)`;
 
 //   const matrix: string[][] = [];
 
-  
 //   for (let x = 0; x < rows; ++x) {
 //     const line: string[] = [];
 
@@ -180,7 +181,6 @@ U 2 (#7a21e3)`;
 //       [x, y] = mapVectors.W
 //     }
 
-    
 //     for(let i = 0; i < value; ++i) {
 //       row += x;
 //       col += y;

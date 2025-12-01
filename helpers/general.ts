@@ -1,5 +1,3 @@
-import { Direction } from './typescript';
-
 export const isCapital = (char: string) => /[A-Z]/.test(char);
 
 /** Can get uppercase or lowercase alphabet as array */
@@ -57,7 +55,7 @@ export const visitDirections = <T>(
   });
 };
 
-const aroundDirectionsVector = [
+export const aroundDirectionsVector = [
   [-1, 0], // N
   [-1, 1], // NE
   [0, 1], // E
@@ -79,13 +77,6 @@ export const visitAround = <T>(
 
     return callback(newRow, newCol);
   });
-};
-
-export const mapVectors: { [key in Direction]: [-1 | 0 | 1, -1 | 0 | 1] } = {
-  N: [-1, 0],
-  E: [0, 1],
-  S: [1, 0],
-  W: [0, -1],
 };
 
 export const extractNumbers = (str: string) => {
@@ -121,3 +112,29 @@ export const getLcm = (numbers: number[]): number => {
 };
 
 export const sumArray = (arr: number[]) => arr.reduce((a, b) => a + b);
+
+/**
+ * Generates all permutations of the input array.
+ * Each permutation contains all numbers in the array exactly once.
+ * @param arr - The input array of numbers.
+ * @returns An array containing all permutations of the input array.
+ */
+export const generatePermutations = (arr: number[]): number[][] => {
+  const result: number[][] = [];
+
+  const permute = (current: number[], remaining: number[]) => {
+    if (remaining.length === 0) {
+      result.push([...current]);
+      return;
+    }
+
+    for (let i = 0; i < remaining.length; i++) {
+      const next = remaining[i];
+      const newRemaining = remaining.slice(0, i).concat(remaining.slice(i + 1));
+      permute([...current, next], newRemaining);
+    }
+  };
+
+  permute([], arr);
+  return result;
+};

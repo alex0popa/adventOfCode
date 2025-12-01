@@ -1,4 +1,4 @@
-import { existsSync, writeFile } from 'fs';
+import { existsSync, writeFile, mkdirSync } from 'fs';
 import { exec } from 'child_process';
 import { getPuzzle } from './helpers/getPuzzle';
 
@@ -37,16 +37,29 @@ const execDay = () => {
   );
 };
 
-const addBoilerPlate = () => {
-  writeFile(`solutions/year_${year}/day_${day}.ts`, BOILERPLATE, execDay);
+const addBoilerPlate = (path: string) => {
+  writeFile(path, BOILERPLATE, execDay);
 };
 
 const go = async () => {
-  const finalPath = `/year_${year}/day_${day}`;
+  const solutionsDirFolderPath = `solutions/year_${year}`;
+  const inputsDirFolderPath = `inputs/year_${year}`;
 
-  !existsSync(`inputs${finalPath}.in`) && (await getPuzzle(+day, +year));
+  if (!existsSync(solutionsDirFolderPath)) {
+    mkdirSync(solutionsDirFolderPath, { recursive: true });
+  }
 
-  existsSync(`solutions${finalPath}.ts`) ? execDay() : addBoilerPlate();
+  if (!existsSync(inputsDirFolderPath)) {
+    mkdirSync(inputsDirFolderPath, { recursive: true });
+  }
+
+  const inputDayPath = `${inputsDirFolderPath}/day_${day}.in`;
+
+  !existsSync(inputDayPath) && (await getPuzzle(+day, +year));
+
+  const solutionDayPath = `${solutionsDirFolderPath}/day_${day}.ts`;
+
+  existsSync(solutionDayPath) ? execDay() : addBoilerPlate(solutionDayPath);
 };
 
 (() => {

@@ -15,13 +15,13 @@ export const getPuzzle = async (
   try {
     const { data } = await axios.get<string, AxiosResponse<string>>(URL, {
       headers: { cookie },
+      responseType: 'text',
+      transformResponse: String,
     });
-
-    const content = String(data);
 
     const filePath = `inputs/year_${year}/day_${day}.in`;
 
-    await fs.writeFile(filePath, content, 'utf8');
+    await fs.writeFile(filePath, data, 'utf8');
 
     console.log('\x1b[1;94m%s\x1b[0m', '!! - Input added - !!');
   } catch (error) {
