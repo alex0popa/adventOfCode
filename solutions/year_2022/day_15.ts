@@ -1,4 +1,4 @@
-import { extractNumbers } from '../../helpers/general';
+import { extractNumbers } from '../../helpers/string';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
@@ -37,7 +37,7 @@ import { showTheResult } from '../../helpers/showTheResult';
 
           return intervals;
         },
-        []
+        [],
       )
       // sort by start interval value
       .sort(([a], [b]) => a - b);
@@ -49,7 +49,7 @@ import { showTheResult } from '../../helpers/showTheResult';
     .slice(1)
     .reduce(
       (val, [start, end]) => (val >= start && val < end ? end : val),
-      star1Intervals[0][1]
+      star1Intervals[0][1],
     );
 
   const star1 = endInterval - startInterval;

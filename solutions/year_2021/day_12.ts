@@ -1,4 +1,5 @@
-import { getRoutes, isCapital } from '../../helpers/general';
+import { getRoutes } from '../../helpers/graph';
+import { isCapital } from '../../helpers/string';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
@@ -15,7 +16,7 @@ import { showTheResult } from '../../helpers/showTheResult';
 
       return obj;
     },
-    {}
+    {},
   );
 
   const checkNode = (str: string) => !isCapital(str);

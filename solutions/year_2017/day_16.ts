@@ -1,4 +1,4 @@
-import { extractNumbers, getAlphabet } from '../../helpers/general';
+import { extractNumbers, getAlphabet } from '../../helpers/string';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 

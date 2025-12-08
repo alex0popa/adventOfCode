@@ -1,5 +1,5 @@
-
-import { extractNumbers, sumArray } from '../../helpers/general';
+import { extractNumbers } from '../../helpers/string';
+import { sumArray } from '../../helpers/number';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
@@ -11,29 +11,29 @@ const getNewHistory = (history: number[]) => {
   }
 
   return newHistory;
-}
+};
 
 const getFuture = (history: number[]): number => {
-  if(history.every(number => number === 0)) return 0;
+  if (history.every((number) => number === 0)) return 0;
 
   const newHistory = getNewHistory(history);
 
   return history[history.length - 1] + getFuture(newHistory);
-}
+};
 
 const getPast = (history: number[]): number => {
   const past: number[] = [];
-  
+
   while (history.some(Boolean)) {
     past.unshift(history[0]);
 
-    history = getNewHistory(history);;
+    history = getNewHistory(history);
   }
-  
+
   return past.reduce((result, value) => value - result, 0);
 };
 
-(async () =>  {
+(async () => {
   console.time('time');
 
   const input = (await getInputForDay(__filename))

@@ -1,4 +1,4 @@
-import { directionsVector } from '../../helpers/general';
+import { directionsVector } from '../../helpers/matrix';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
@@ -8,7 +8,7 @@ const getDistance = (
   startCol: number,
   endRow: number,
   endCol: number,
-  steps = Infinity
+  steps = Infinity,
 ) => {
   let que: number[][] = [[startRow, startCol, 0]];
   const visited = new Set<string>();
@@ -72,7 +72,7 @@ const getDistance = (
       }
 
       return char;
-    })
+    }),
   );
 
   const star1 = getDistance(grid, startRow, startCol, endRow, endCol);

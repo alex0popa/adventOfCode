@@ -1,9 +1,8 @@
-
-import { extractNumbers } from '../../helpers/general';
+import { extractNumbers } from '../../helpers/string';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
-(async () =>  {
+(async () => {
   const input = (await getInputForDay(__filename)).trim().split('\n');
   const chars = ['=', '*', '+', '/', '#', '&', '-', '%', '$', '@'];
 
@@ -13,23 +12,24 @@ import { showTheResult } from '../../helpers/showTheResult';
     const startRow = row - 1;
     const endRow = row + 1;
     const startCol = cols[0] - 1;
-    const endCol = cols.slice(-1)[0] +1;
+    const endCol = cols.slice(-1)[0] + 1;
 
     for (let i = startRow; i <= endRow; ++i)
       for (let j = startCol; j <= endCol; ++j)
-        if(chars.includes(input[i]?.[j])) return true;
-        
+        if (chars.includes(input[i]?.[j])) return true;
+
     return false;
-  }
+  };
 
   for (let row = 0; row < input.length; ++row) {
-    let stringNumber = '', colIndexes: number[] = [];
+    let stringNumber = '',
+      colIndexes: number[] = [];
 
     for (let col = 0; col <= input[row].length; ++col) {
-      if(!isNaN(+input[row][col])) {
+      if (!isNaN(+input[row][col])) {
         stringNumber += input[row][col];
         colIndexes.push(col);
-      } else if(stringNumber) {
+      } else if (stringNumber) {
         if (isAPartNumber(row, colIndexes)) star1 += Number(stringNumber);
 
         stringNumber = '';
@@ -45,25 +45,26 @@ import { showTheResult } from '../../helpers/showTheResult';
     const rows = [row - 1, row, row + 1];
     let numbers: number[] = [];
 
-    rows.forEach(currentRow => {
-      let left = col - 1, right = col + 1;
+    rows.forEach((currentRow) => {
+      let left = col - 1,
+        right = col + 1;
       const line = input[currentRow];
 
-      while(!isNaN(+line[left]) && left > 0) --left;
-      while(!isNaN(+line[right]) && right < rowLength) ++right;
+      while (!isNaN(+line[left]) && left > 0) --left;
+      while (!isNaN(+line[right]) && right < rowLength) ++right;
 
       const subString = line.slice(left, right);
       const stringNumbers = extractNumbers(subString);
 
       numbers = [...numbers, ...stringNumbers];
-    })
+    });
 
     return numbers.length === 2 ? numbers[0] * numbers[1] : 0;
-  }
+  };
 
   for (let row = 0; row < input.length; ++row)
     for (let col = 0; col < input[row].length; ++col)
-      if(input[row][col] === '*')  star2 += getGearRatio(row, col);
+      if (input[row][col] === '*') star2 += getGearRatio(row, col);
 
   showTheResult({ star1, star2, path: __filename });
 })();
