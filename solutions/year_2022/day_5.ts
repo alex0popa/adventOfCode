@@ -19,7 +19,7 @@ const getResult = (matrixList: string[][][]) =>
 
         return arr;
       },
-      [...Array(movesStartIndex - 1)].map(() => [])
+      [...Array(movesStartIndex - 1)].map(() => []),
     );
 
   const stacks2 = [...stacks1];
@@ -29,7 +29,7 @@ const getResult = (matrixList: string[][][]) =>
       (arr, str) =>
         // 'from' and 'to' start from 1, my stacks arrays start from 0
         isNaN(+str) ? arr : [...arr, arr.length ? +str - 1 : +str],
-      []
+      [],
     );
 
     [stacks1, stacks2].forEach((stack, i) => {

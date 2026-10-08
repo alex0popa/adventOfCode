@@ -12,11 +12,11 @@ const ALFABET = getAlphabet('A');
   console.time('time');
   const input = (await getInputForDay(__filename)).split('\n');
   const letters: string[] = [];
-  let row = 0;
-  let col = input[row].indexOf('|');
-  let execute = true;
-  let direction: typeof VERTICAL | typeof HORIZONTAL = VERTICAL;
-  let step: 1 | -1 = 1;
+  const row = 0;
+  const col = input[row].indexOf('|');
+  const execute = true;
+  const direction: typeof VERTICAL | typeof HORIZONTAL = VERTICAL;
+  const step: 1 | -1 = 1;
 
   // while(execute) {
   //   while(input[row][++col] !== PLUS) {

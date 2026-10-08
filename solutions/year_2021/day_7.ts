@@ -18,10 +18,10 @@ const computeConsum = (steps: number, consum = 0) => {
           .map((crabPosition) =>
             star === 1
               ? Math.abs(crabPosition - actualPosition)
-              : computeConsum(Math.abs(crabPosition - actualPosition))
+              : computeConsum(Math.abs(crabPosition - actualPosition)),
           )
-          .reduce((a, c) => a + c)
-      )
+          .reduce((a, c) => a + c),
+      ),
     );
 
   const star1 = getStar(1);

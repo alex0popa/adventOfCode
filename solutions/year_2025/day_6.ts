@@ -21,7 +21,7 @@ const computeStar1 = (input: string) => {
 
   let star1 = 0;
   for (let col = 0; col < matrix[0].length; col++) {
-    let operation = matrix[0][col];
+    const operation = matrix[0][col];
     let sum = 0;
     let mult = 1;
 

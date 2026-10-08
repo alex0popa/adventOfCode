@@ -16,7 +16,7 @@ const getAntinodePoints = (point1: Point, point2: Point, step = 1) => {
 
 const solve = (antenas: Point[][], input: string[], steps = Infinity) => {
   const matrix = [...input].map((line) => line.split(''));
-  let antinodes = new Set<string>();
+  const antinodes = new Set<string>();
 
   for (const points of antenas) {
     for (let i = 0; i < points.length; i++) {

@@ -40,7 +40,7 @@ const SEPARATOR = '-';
       star1: size <= MAX_SIZE ? star1 + size : star1,
       star2: size > spaceToFree && size < star2 ? size : star2,
     }),
-    { star1: 0, star2: Infinity }
+    { star1: 0, star2: Infinity },
   );
 
   showTheResult({ star1, star2, path: __filename });

@@ -7,7 +7,7 @@ import { showTheResult } from '../../helpers/showTheResult';
       .split(' -> ')
       .map((c) => c.split(','))
       .flat()
-      .map(Number)
+      .map(Number),
   );
 
   const map = [...Array(1000)].map(() => [...Array(1000)].map(() => 0));

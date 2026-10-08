@@ -10,7 +10,7 @@ type Board = El[][];
   const nrs = input.shift()!.split(',');
 
   const boards: Board[] = input.map((board) =>
-    board.split('\n').map((el) => el.split(' ').filter((el) => el))
+    board.split('\n').map((el) => el.split(' ').filter((el) => el)),
   );
 
   const isNumber = (el: El) => typeof el === 'number';

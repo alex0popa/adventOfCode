@@ -33,7 +33,7 @@ type Point = { row: number; col: number };
     if (
       dir === '>' &&
       coordinates.every(
-        ({ row, col }) => col < floor.length - 1 && floor[col + 1] < row
+        ({ row, col }) => col < floor.length - 1 && floor[col + 1] < row,
       )
     ) {
       for (let i = 0; i < coordinates.length; i++) {

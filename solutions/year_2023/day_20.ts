@@ -1,9 +1,7 @@
-
-
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
-(async () =>  {
+(async () => {
   console.time('time');
   const input = (await getInputForDay(__filename)).trim().split('\n');
 

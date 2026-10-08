@@ -18,7 +18,7 @@ const day20 = async () => {
         : imageEnhancementAlgorithm.slice(-1);
 
     inputImage = inputImage.map(
-      (line) => `${char}${char}${line}${char}${char}`
+      (line) => `${char}${char}${line}${char}${char}`,
     );
     whiteLine = Array(inputImage[0].length).fill(char).join('');
     inputImage = [whiteLine, whiteLine, ...inputImage, whiteLine, whiteLine];
@@ -33,7 +33,7 @@ const day20 = async () => {
   let star1 = 0;
 
   for (let enhance = 1; enhance <= 50; ++enhance) {
-    let map: string[] = [];
+    const map: string[] = [];
 
     for (let i = 0; i < inputImage.length - 2; ++i) {
       let line = '';

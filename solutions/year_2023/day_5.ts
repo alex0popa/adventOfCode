@@ -51,8 +51,8 @@ const getStart2 = ({
           (end < source + range && end >= source)
         ) {
           find = true;
-          let newStart = start < source ? source : start;
-          let newEnd = end < source + range ? end : source + range - 1;
+          const newStart = start < source ? source : start;
+          const newEnd = end < source + range ? end : source + range - 1;
 
           partialRanges.push([
             newStart + (destination - source),

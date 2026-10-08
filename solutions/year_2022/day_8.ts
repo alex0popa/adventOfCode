@@ -4,7 +4,7 @@ import { showTheResult } from '../../helpers/showTheResult';
 
 /** [left, rigth, top, bottom] */
 const coordinates = [0, 1, 2, 3] as const;
-type Coordinate = typeof coordinates[number];
+type Coordinate = (typeof coordinates)[number];
 
 (async () => {
   const input = (await getInputForDay(__filename))
@@ -37,10 +37,10 @@ type Coordinate = typeof coordinates[number];
       idx === 0
         ? [row, dirs[idx]--] // move -> left
         : idx === 1
-        ? [row, dirs[idx]++] // move -> rigth
-        : idx === 2
-        ? [col, dirs[idx]--] // move -> top
-        : [col, dirs[idx]++]; // move -> bottom
+          ? [row, dirs[idx]++] // move -> rigth
+          : idx === 2
+            ? [col, dirs[idx]--] // move -> top
+            : [col, dirs[idx]++]; // move -> bottom
 
     const isOnGrid = (i: number) => i >= 0 && i < ML;
 
