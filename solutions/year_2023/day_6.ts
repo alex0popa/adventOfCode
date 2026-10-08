@@ -1,7 +1,6 @@
-
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
-import {extractNumbers} from '../../helpers/general';
+import { extractNumbers } from '../../helpers/string';
 
 const getWays = (recordDistance: number, time: number) => {
   let ways = 0;
@@ -9,13 +8,13 @@ const getWays = (recordDistance: number, time: number) => {
   for (let speed = 0; speed <= time; ++speed) {
     const raceDistance = speed * (time - speed);
 
-    if(raceDistance > recordDistance) ++ways;
+    if (raceDistance > recordDistance) ++ways;
   }
 
   return ways;
-}
+};
 
-(async () =>  {
+(async () => {
   const [times, distances] = (await getInputForDay(__filename))
     .trim()
     .split('\n')
@@ -23,7 +22,7 @@ const getWays = (recordDistance: number, time: number) => {
 
   const star1 = times.reduce((prod, time, idx) => {
     const recordDistance = distances[idx];
-    const ways = getWays(recordDistance, time)
+    const ways = getWays(recordDistance, time);
 
     return prod * ways;
   }, 1);

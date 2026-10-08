@@ -32,7 +32,6 @@ hdj{m>838:A,pv}
 {x=2461,m=1339,a=466,s=291}
 {x=2127,m=1623,a=2188,s=1013}`;
 
-
 class ParteOne {
   private ratings: X_Mas[];
   private workflows: Map<string, string>;
@@ -49,7 +48,7 @@ class ParteOne {
     if (['A', 'R'].includes(nextKey)) {
       this.isAcceptedOrRejected = true;
 
-      if (nextKey === 'A') this.star += (x + m + a + s);
+      if (nextKey === 'A') this.star += x + m + a + s;
 
       return;
     }
@@ -117,13 +116,19 @@ const parseInput = (input: string[]) => {
   for (const line of input) {
     if (line.length) {
       if (line.startsWith('{x=')) {
-        const xMas = line.slice(1, -1).split(',').reduce<X_Mas>((obj, part) => {
-          const [key, value] = part.split('=') as [XmasKey, string];
+        const xMas = line
+          .slice(1, -1)
+          .split(',')
+          .reduce<X_Mas>(
+            (obj, part) => {
+              const [key, value] = part.split('=') as [XmasKey, string];
 
-          return { ...obj, [key]: +value };
-        }, { x: 0, m: 0, a: 0, s: 0 });
+              return { ...obj, [key]: +value };
+            },
+            { x: 0, m: 0, a: 0, s: 0 },
+          );
 
-        ratings.push(xMas)
+        ratings.push(xMas);
       } else {
         const [key, value] = line.split('{');
 
@@ -133,7 +138,7 @@ const parseInput = (input: string[]) => {
   }
 
   return { ratings, workflows };
-}
+};
 
 class PartTwo {
   private workflows: Map<string, string>;
@@ -156,7 +161,6 @@ class PartTwo {
         tail.push(neighbor);
 
         this.getPaths(tail, paths, path);
-
       } else if (neighbor === 'A') {
         paths.push(path.join(SEPARATOR));
       }
@@ -166,19 +170,18 @@ class PartTwo {
 
     if (!tail.length) {
       this.paths = paths;
-    };
+    }
   }
 
   private handleNextKey(key: string, nextKey: string) {
     this.map[key].push(nextKey);
 
-    !(['A', 'R'].includes(nextKey)) && this.addKey(nextKey);
+    !['A', 'R'].includes(nextKey) && this.addKey(nextKey);
   }
-
 
   private addKey(key: string) {
     if (!this.map[key]) {
-      this.map[key] = []
+      this.map[key] = [];
     }
 
     const workflow = this.workflows.get(key)!;
@@ -190,7 +193,6 @@ class PartTwo {
       if (rule.includes('<')) {
         const [, rest] = rule.split('<') as [XmasKey, string];
         const [, nextKey] = rest.split(':');
-
 
         this.handleNextKey(key, nextKey);
       } else if (rule.includes('>')) {
@@ -205,7 +207,7 @@ class PartTwo {
   }
 
   private computeStar() {
-    this.paths.forEach(path => {
+    this.paths.forEach((path) => {
       const ranges = { x: [1, 4000], m: [1, 4000], a: [1, 4000], s: [1, 4000] };
       const keys = path.split(SEPARATOR);
 
@@ -213,11 +215,9 @@ class PartTwo {
         const workflow = this.workflows.get(keys[i])!;
         const rules = workflow.split(',');
         const nextKey = keys[i + 1];
-        const ruleIdx = rules.findIndex(actualRule => {
-
-          return actualRule.includes(nextKey)
+        const ruleIdx = rules.findIndex((actualRule) => {
+          return actualRule.includes(nextKey);
         });
-
 
         if (ruleIdx > -1) {
           for (let i = 0; i < ruleIdx; ++i) {
@@ -229,16 +229,12 @@ class PartTwo {
               const [min, max] = ranges[part];
 
               ranges[part] = [Math.max(min, +value), max];
-
             } else if (rule.includes('>')) {
               const [part, rest] = rule.split('>') as [XmasKey, string];
               const [value, nextKey] = rest.split(':');
               const [min, max] = ranges[part];
 
-
               ranges[part] = [min, Math.min(max, +value)];
-
-
             }
           }
 
@@ -249,27 +245,19 @@ class PartTwo {
             const [value, nextKey] = rest.split(':');
             const [min, max] = ranges[part];
 
-
             ranges[part] = [min, Math.min(max, +value - 1)];
-
-
           } else if (rule.includes('>')) {
             const [part, rest] = rule.split('>') as [XmasKey, string];
             const [value, nextKey] = rest.split(':');
             const [min, max] = ranges[part];
 
-
             ranges[part] = [Math.max(min, +value + 1), max];
-
-
           }
-
-
         }
-      };
+      }
 
       const prod = Object.values(ranges).reduce((prod, [min, max]) => {
-        return prod *= ((max - min) + 1);
+        return (prod *= max - min + 1);
       }, 1);
 
       this.star += prod;
@@ -304,7 +292,6 @@ class PartTwo {
 
   showTheResult({ star1, star2: 'WIP...', path: __filename });
 })();
-
 
 // 725976000000000
 // 342133200000000

@@ -32,7 +32,7 @@ import { showTheResult } from '../../helpers/showTheResult';
     .map((line) => line.split('\n').map((str) => JSON.parse(str)) as Packet[])
     .reduce(
       (res, [left, right], i) => (compare(left, right) < 0 ? ++res + i : res),
-      0
+      0,
     );
 
   const dividerPackets = ['[[2]]', '[[6]]'];
@@ -43,7 +43,7 @@ import { showTheResult } from '../../helpers/showTheResult';
     .sort((left, right) => compare(JSON.parse(left), JSON.parse(right)))
     .reduce(
       (res, line, i) => (dividerPackets.includes(line) ? res * (i + 1) : res),
-      1
+      1,
     );
 
   showTheResult({ star1, star2, path: __filename });

@@ -1,10 +1,10 @@
 type Stars = { star1: number | string; star2: number | string; path: string };
 
 const fill = (length: number, fillChar: '-' | ' ') => {
-  return [...Array(length).fill(fillChar)].join('')
-}
+  return [...Array(length).fill(fillChar)].join('');
+};
 
-const displayResult = ({ star1, star2, path }: Stars, i?: number) => {
+const displayResult = ({ star1, star2, path }: Stars) => {
   const day = +path.split('day_')[1].replace('.ts', '');
   const maxLength = Math.max(`${star1}`.length, `${star2}`.length);
 

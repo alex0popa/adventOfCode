@@ -11,7 +11,7 @@ const POINTS2: Points = { ')': 1, ']': 2, '}': 3, '>': 4 };
 
 const day10 = async () => {
   let star1 = 0;
-  let scores: number[] = [];
+  const scores: number[] = [];
 
   (await getInputForDay(__filename))
     .split('\n')
@@ -34,7 +34,7 @@ const day10 = async () => {
         scores.push(
           opened
             .reverse()
-            .reduce((a, c) => a * 5 + POINTS2[c as keyof Points], 0)
+            .reduce((a, c) => a * 5 + POINTS2[c as keyof Points], 0),
         );
     });
 

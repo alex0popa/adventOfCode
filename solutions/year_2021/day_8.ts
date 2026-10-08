@@ -16,9 +16,9 @@ const day8 = async () => {
           el
             .split('')
             .sort((a, b) => a.localeCompare(b))
-            .join('')
+            .join(''),
         )
-        .join(' ')
+        .join(' '),
     )
     .reduce((a, c) => a + getSimples(c), 0);
 
@@ -33,7 +33,7 @@ const day8 = async () => {
       el.length === 4 && (four = el);
     });
 
-    let res = out.split(' ');
+    const res = out.split(' ');
 
     res.forEach((s, i) => {
       if (s.length === 2) {

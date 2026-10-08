@@ -1,9 +1,9 @@
-import { extractNumbers } from '../../helpers/general';
+import { extractNumbers } from '../../helpers/string';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
 const getGroup = (map: Map<number, number[]>, startNode: number) => {
-  let toVisit = [startNode];
+  const toVisit = [startNode];
   const visited = new Set<number>();
 
   while (toVisit.length) {

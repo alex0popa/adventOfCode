@@ -29,7 +29,7 @@ const day16 = async () => {
     let bin = '';
     let l = 0;
 
-    for (let ok = true; ok; ) {
+    for (let ok = true; ok;) {
       const group = s.slice(1, 5);
 
       bin += group;

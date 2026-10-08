@@ -1,4 +1,4 @@
-import { getAlphabet } from '../../helpers/general';
+import { getAlphabet } from '../../helpers/string';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
@@ -33,7 +33,7 @@ const LETTERS = [...getAlphabet('a'), ...getAlphabet('A')];
 
       return { star1, star2 };
     },
-    { star1: 0, star2: 0 }
+    { star1: 0, star2: 0 },
   );
 
   showTheResult({ star1, star2, path: __filename });

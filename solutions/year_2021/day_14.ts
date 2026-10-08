@@ -5,7 +5,7 @@ const day14 = async () => {
   const input = (await getInputForDay(__filename)).split('\n\n');
 
   const rules = Object.fromEntries(
-    input[1].split('\n').map((s) => s.split(' -> '))
+    input[1].split('\n').map((s) => s.split(' -> ')),
   );
   const polymer = input[0];
 
@@ -33,7 +33,7 @@ const day14 = async () => {
 
           return { ...newDictionary, [key1]: val1, [key2]: val2 };
         },
-        {} as Obj
+        {} as Obj,
       );
     }
 
@@ -44,7 +44,7 @@ const day14 = async () => {
 
         return { ...freq, [key]: val };
       },
-      {} as Obj
+      {} as Obj,
     );
 
     const mostCommonElement = Math.max(...Object.values(elementsFreq));

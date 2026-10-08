@@ -1,6 +1,6 @@
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
-import { directionsVectorMap } from '../../helpers/general';
+import { directionsVectorMap } from '../../helpers/matrix';
 import { Point } from '../../helpers/typescript';
 
 type Direction = 'N' | 'E' | 'S' | 'W';

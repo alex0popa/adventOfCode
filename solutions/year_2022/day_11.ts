@@ -1,4 +1,5 @@
-import { extractNumbers, getLcm } from '../../helpers/general';
+import { extractNumbers } from '../../helpers/string';
+import { getLcm } from '../../helpers/number';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
@@ -55,7 +56,7 @@ const getResults = (monkeysList: Monkey[][]) =>
     monkeys
       .sort((a, b) => a.inspectedItems - b.inspectedItems)
       .slice(-2)
-      .reduce((prod, b) => prod * b.inspectedItems, 1)
+      .reduce((prod, b) => prod * b.inspectedItems, 1),
   );
 
 (async () => {

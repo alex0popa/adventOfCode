@@ -6,19 +6,19 @@ const hash = (string: string, currentValue = 0) => {
     const char = string[i];
     currentValue += char.charCodeAt(0);
     currentValue *= 17;
-    currentValue %= 256
+    currentValue %= 256;
   }
 
   return currentValue;
-}
+};
 
 const getInfo = (string: string) => {
   const operation = string.includes('-') ? '-' : '=';
-  const [label, focal  = ''] = string.split(operation);
+  const [label, focal = ''] = string.split(operation);
   const box = hash(label);
 
   return [operation, box, label, Number(focal)] as const;
-}
+};
 
 const getStar2 = (input: string[]) => {
   const boxes = [...Array(256)].map<[string, number][]>(() => []);
@@ -26,13 +26,13 @@ const getStar2 = (input: string[]) => {
   for (const string of input) {
     const [operation, boxIdx, label, focal] = getInfo(string);
 
-    if(operation === '-') {
+    if (operation === '-') {
       boxes[boxIdx] = boxes[boxIdx].filter(([key]) => key !== label);
-    } else if(operation === '=') {
+    } else if (operation === '=') {
       let existingLensIdx = boxes[boxIdx].findIndex(([key]) => key === label);
 
-      if(existingLensIdx === -1) existingLensIdx = boxes[boxIdx].length;
-      
+      if (existingLensIdx === -1) existingLensIdx = boxes[boxIdx].length;
+
       boxes[boxIdx][existingLensIdx] = [label, focal];
     }
   }
@@ -44,14 +44,14 @@ const getStar2 = (input: string[]) => {
       const [, focal] = boxes[i][j];
       const focusingPower = (i + 1) * (j + 1) * focal;
 
-      star2 += focusingPower
+      star2 += focusingPower;
     }
   }
 
   return star2;
-}
+};
 
-(async () =>  {
+(async () => {
   console.time('time');
   const input = (await getInputForDay(__filename))
     .trim()
@@ -60,7 +60,6 @@ const getStar2 = (input: string[]) => {
 
   const star1 = input.reduce((sum, string) => sum + hash(string), 0);
   const star2 = getStar2(input);
-  
 
   showTheResult({ star1, star2, path: __filename });
 })();

@@ -1,4 +1,4 @@
-import { directionsVector } from '../../helpers/general';
+import { directionsVector } from '../../helpers/matrix';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 import { Point } from '../../helpers/typescript';
@@ -17,7 +17,10 @@ const testInput = `...........
 
 (async () => {
   console.time('time');
-  const input = (await getInputForDay(__filename)).trim().split('\n').map(line => line.split(''));
+  const input = (await getInputForDay(__filename))
+    .trim()
+    .split('\n')
+    .map((line) => line.split(''));
   const STEPS = 64;
   // const input = testInput.trim().split('\n').map(line => line.split(''));
   const start: Point = { row: -1, col: -1 };
@@ -47,13 +50,13 @@ const testInput = `...........
       });
     }
 
-    tail = Array.from(partialTail)
+    tail = Array.from(partialTail);
   }
 
   showTheResult({ star1: tail.length, star2: 'WIP...', path: __filename });
 })();
 
-type GardenPoint = Point & { X: number, Y: number };
+type GardenPoint = Point & { X: number; Y: number };
 
 // (async () =>  {
 //   console.time('time');
@@ -89,7 +92,12 @@ type GardenPoint = Point & { X: number, Y: number };
 //   showTheResult({ star1: tail.length, star2: 'WIP...', path: __filename });
 // })();
 
-function checkPoint(point: GardenPoint | undefined, input: string[][], visited: Set<string>, partialTail: GardenPoint[]) {
+function checkPoint(
+  point: GardenPoint | undefined,
+  input: string[][],
+  visited: Set<string>,
+  partialTail: GardenPoint[],
+) {
   if (!point) return false;
 
   const northEdge = 0;
@@ -121,7 +129,6 @@ function checkPoint(point: GardenPoint | undefined, input: string[][], visited: 
 
     const el = input[row][col];
     const key = `${X}-${Y}-${row}-${col}`;
-
 
     if (el === '.' && !visited.has(key)) {
       partialTail.push({ X, Y, row, col });

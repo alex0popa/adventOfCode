@@ -10,12 +10,14 @@ function getStar1(matrix: string[][]) {
     let roundedRocks = 0;
 
     for (let row = matrix.length - 1; row >= 0; --row) {
-      if(matrix[row][col] === 'O') roundedRocks++;
-      
+      if (matrix[row][col] === 'O') roundedRocks++;
+
       if (matrix[row][col] === '#' || row === 0) {
-  
-        while(roundedRocks) {
-          const value = (matrix.length - row - roundedRocks) + 
+        while (roundedRocks) {
+          const value =
+            matrix.length -
+            row -
+            roundedRocks +
             (row === 0 && matrix[row][col] !== '#' ? 1 : 0);
           star += value;
           --roundedRocks;
@@ -32,8 +34,8 @@ function getStar2(matrix: string[][]) {
 
   for (let row = 0; row < matrix.length; ++row) {
     for (let col = 0; col < matrix[row].length; ++col) {
-      if(matrix[row][col] === 'O') {
-        star += (matrix.length - row);
+      if (matrix[row][col] === 'O') {
+        star += matrix.length - row;
       }
     }
   }
@@ -41,25 +43,24 @@ function getStar2(matrix: string[][]) {
   return star;
 }
 
-(async () =>  {
-console.time('time');
+(async () => {
+  console.time('time');
 
-const input = (await getInputForDay(__filename))
-  .trim()
-  .split('\n')
-  .map(line => line.split(''));
+  const input = (await getInputForDay(__filename))
+    .trim()
+    .split('\n')
+    .map((line) => line.split(''));
 
-const star1 = getStar1(input);
+  const star1 = getStar1(input);
 
-const matrix = spin(input, CYCLES);
-const star2 = getStar2(matrix);
+  const matrix = spin(input, CYCLES);
+  const star2 = getStar2(matrix);
 
-showTheResult({ star1, star2, path: __filename });
+  showTheResult({ star1, star2, path: __filename });
 })();
 
 function getMatrixAsKey(matrix: string[][]) {
-
-  return matrix.map(line => line.join('')).join('');
+  return matrix.map((line) => line.join('')).join('');
 }
 
 function spinToNorth(matrix: string[][]) {
@@ -73,8 +74,8 @@ function spinToNorth(matrix: string[][]) {
         ++roundedRocks;
       }
 
-      if(matrix[row][col] === '#' || row === matrix.length - 1) {
-        while(roundedRocks) {
+      if (matrix[row][col] === '#' || row === matrix.length - 1) {
+        while (roundedRocks) {
           matrix[startRow + roundedRocks][col] = 'O';
 
           --roundedRocks;
@@ -90,15 +91,17 @@ function spinToWest(matrix: string[][]) {
   for (let row = 0; row < matrix.length; ++row) {
     let roundedRocks = 0;
 
-    for (let col = matrix[row].length - 1; col >= 0 ; --col) {
+    for (let col = matrix[row].length - 1; col >= 0; --col) {
       if (matrix[row][col] === 'O') {
         matrix[row][col] = '.';
         ++roundedRocks;
       }
 
-      if(matrix[row][col] === '#' || col === 0) {
-        while(roundedRocks) {
-          matrix[row][col + roundedRocks - (col === 0 && matrix[row][col] !== '#' ? 1 : 0)] = 'O';
+      if (matrix[row][col] === '#' || col === 0) {
+        while (roundedRocks) {
+          matrix[row][
+            col + roundedRocks - (col === 0 && matrix[row][col] !== '#' ? 1 : 0)
+          ] = 'O';
 
           --roundedRocks;
         }
@@ -117,9 +120,13 @@ function spinToSouth(matrix: string[][]) {
         matrix[row][col] = '.';
       }
 
-      if(matrix[row][col] === '#' || row === matrix.length - 1) {
-        while(roundedRocks) {
-          matrix[row - roundedRocks + (row === matrix.length - 1 && matrix[row][col] !== '#' ? 1 : 0)][col] = 'O';
+      if (matrix[row][col] === '#' || row === matrix.length - 1) {
+        while (roundedRocks) {
+          matrix[
+            row -
+              roundedRocks +
+              (row === matrix.length - 1 && matrix[row][col] !== '#' ? 1 : 0)
+          ][col] = 'O';
 
           --roundedRocks;
         }
@@ -138,9 +145,15 @@ function spinToEast(matrix: string[][]) {
         matrix[row][col] = '.';
       }
 
-      if(matrix[row][col] === '#' || col === matrix[row].length - 1) {
-        while(roundedRocks) {
-          matrix[row][col - roundedRocks + (col === matrix[row].length - 1 && matrix[row][col] !== '#' ? 1 : 0)] = 'O';
+      if (matrix[row][col] === '#' || col === matrix[row].length - 1) {
+        while (roundedRocks) {
+          matrix[row][
+            col -
+              roundedRocks +
+              (col === matrix[row].length - 1 && matrix[row][col] !== '#'
+                ? 1
+                : 0)
+          ] = 'O';
 
           --roundedRocks;
         }
@@ -155,10 +168,10 @@ function extractMatrixFromString(string: string, rowLength: number) {
 
   for (let i = 0; i < string.length; i++) {
     tempArr.push(string[i]);
-    
-    if(tempArr.length === rowLength) {
+
+    if (tempArr.length === rowLength) {
       matrix.push(tempArr);
-      tempArr = []
+      tempArr = [];
     }
   }
 
@@ -176,7 +189,7 @@ function spin(input: string[][], cycles: number) {
   let cacheKey = getMatrixAsKey(input);
   const cache: { [key: string]: number } = { [cacheKey]: 1 };
 
-  while (Object.values(cache).every(value => value === 1)) {
+  while (Object.values(cache).every((value) => value === 1)) {
     runCompleteCycle(input);
 
     cacheKey = getMatrixAsKey(input);
@@ -185,10 +198,13 @@ function spin(input: string[][], cycles: number) {
 
     --cycles;
   }
-  
+
   const cachedValues = Object.values(cache);
-  const firstDuplicatedIndex = cachedValues.findIndex(value => value > 1) ?? 0;
-  const cacheValueIdx = firstDuplicatedIndex + cycles % (cachedValues.length - firstDuplicatedIndex);
+  const firstDuplicatedIndex =
+    cachedValues.findIndex((value) => value > 1) ?? 0;
+  const cacheValueIdx =
+    firstDuplicatedIndex +
+    (cycles % (cachedValues.length - firstDuplicatedIndex));
   const [matrixAsKey] = Object.entries(cache)[cacheValueIdx];
 
   return extractMatrixFromString(matrixAsKey, input[0].length);

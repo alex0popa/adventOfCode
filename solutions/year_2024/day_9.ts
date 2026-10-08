@@ -37,7 +37,7 @@ const getStar2 = (input: string) => {
   const mapArr: { char: string; positions: number }[] = [];
 
   for (let i = 0, page = 0; i < input.length; i++) {
-    let positions = +input[i];
+    const positions = +input[i];
 
     if (positions === 0) continue;
 

@@ -1,4 +1,4 @@
-import { visitDirections } from '../../helpers/general';
+import { visitDirections } from '../../helpers/matrix';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 

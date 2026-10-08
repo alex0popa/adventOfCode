@@ -20,7 +20,7 @@ import { showTheResult } from '../../helpers/showTheResult';
 
       return { star1, star2 };
     },
-    { star1: 0, star2: 0 }
+    { star1: 0, star2: 0 },
   );
 
   showTheResult({ star1, star2, path: __filename });

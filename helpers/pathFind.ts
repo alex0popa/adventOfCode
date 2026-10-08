@@ -1,13 +1,13 @@
-import Heap from "heap-js";
-import { Direction } from "./typescript";
+import Heap from 'heap-js';
+import { Direction } from './typescript';
 
-export type Neighbor = { key: string; value: number, direction: Direction };
+export type Neighbor = { key: string; value: number; direction: Direction };
 export type Nodes = { [neighbors: string]: Neighbor[] };
 
 type Previous = {
-  node: string,
-  distance: number,
-  sameDirection: number 
+  node: string;
+  distance: number;
+  sameDirection: number;
 };
 
 export class PathFind {
@@ -15,7 +15,9 @@ export class PathFind {
   private heuristicEstimates: Record<string, number> = {};
   private previous: Record<string, Previous> = {};
   private visited: Record<string, boolean> = {};
-  private queue = new Heap<{ priority: number, node: string }>((a, b) => a.priority - b.priority);
+  private queue = new Heap<{ priority: number; node: string }>(
+    (a, b) => a.priority - b.priority,
+  );
   private startNode: string;
   private endNode: string;
 
@@ -27,7 +29,7 @@ export class PathFind {
   addNode(node: string, neighbors: Neighbor[], estimate?: number): void {
     this.nodes[node] = neighbors;
 
-    if(typeof estimate === 'number') {
+    if (typeof estimate === 'number') {
       this.addHeuristicEstimate(node, estimate);
     }
   }
@@ -61,16 +63,15 @@ export class PathFind {
       const totalDistance = currentDistance + distanceToNeighbor;
 
       if (totalDistance < this.previous[node].distance) {
-
-        this.previous[node] = { 
+        this.previous[node] = {
           ...this.previous[node],
-          distance: totalDistance, 
+          distance: totalDistance,
           node: currentNode,
         };
-        
-        this.queue.add({ 
-          priority: totalDistance + (this.heuristicEstimates[node] ?? 0), 
-          node
+
+        this.queue.add({
+          priority: totalDistance + (this.heuristicEstimates[node] ?? 0),
+          node,
         });
       }
     }
@@ -78,43 +79,40 @@ export class PathFind {
 
   private dijkstra() {
     for (const node in this.nodes) {
-      
       this.previous[node] = {
         distance: Infinity,
         node: '',
-        sameDirection: 0
+        sameDirection: 0,
       };
     }
 
     this.previous[this.startNode].distance = 0;
 
-    this.queue.add({ 
+    this.queue.add({
       priority: this.heuristicEstimates[this.startNode] ?? 0,
-      node: this.startNode
+      node: this.startNode,
     });
 
     let currentNode: string | undefined;
 
-    while (currentNode = this.queue.pop()?.node) {
+    while ((currentNode = this.queue.pop()?.node)) {
       if (currentNode === this.endNode) {
         return this.shortestPath();
       }
- 
-      this.visit(currentNode);      
+
+      this.visit(currentNode);
     }
 
-    throw('No path found');
+    throw 'No path found';
   }
-  
+
   executeAStar() {
     return this.dijkstra();
   }
-  
+
   log() {
-    Object
-      .entries(this.nodes)
-      .forEach(([key, value]) => {
-        console.log(key, ' -> ', JSON.stringify(value))
-      });
+    Object.entries(this.nodes).forEach(([key, value]) => {
+      console.log(key, ' -> ', JSON.stringify(value));
+    });
   }
 }

@@ -10,7 +10,7 @@ import { showTheResult } from '../../helpers/showTheResult';
         arr: !nr ? arr.concat([total]) : arr,
         total: !nr ? nr : total + nr,
       }),
-      { arr: [], total: 0 }
+      { arr: [], total: 0 },
     )
     .arr.sort((a, b) => b - a)
     .slice(0, 3);

@@ -16,13 +16,13 @@ const getObj = (s: ABC | XYZ, elfObj?: RPS) =>
     ? s === 'Y'
       ? elfObj
       : s === 'X'
-      ? (winners.find((str) => str[2] === elfObj)![0] as RPS)
-      : (winners.find((str) => str[0] === elfObj)![2] as RPS)
+        ? (winners.find((str) => str[2] === elfObj)![0] as RPS)
+        : (winners.find((str) => str[0] === elfObj)![2] as RPS)
     : ['A', 'X'].includes(s)
-    ? 'R'
-    : ['B', 'Y'].includes(s)
-    ? 'P'
-    : 'S';
+      ? 'R'
+      : ['B', 'Y'].includes(s)
+        ? 'P'
+        : 'S';
 
 (async () => {
   const input = (await getInputForDay(__filename))
@@ -41,7 +41,7 @@ const getObj = (s: ABC | XYZ, elfObj?: RPS) =>
 
       return { star1, star2 };
     },
-    { star1: 0, star2: 0 }
+    { star1: 0, star2: 0 },
   );
 
   showTheResult({ star1, star2, path: __filename });

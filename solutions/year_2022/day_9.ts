@@ -1,14 +1,14 @@
-import { directionsVector } from '../../helpers/general';
+import { directionsVector } from '../../helpers/matrix';
 import { getInputForDay } from '../../helpers/getInputForDay';
 import { showTheResult } from '../../helpers/showTheResult';
 
 const DIRECTIONS = ['U', 'R', 'D', 'L'] as const;
 
-type Dirs = typeof DIRECTIONS[number];
+type Dirs = (typeof DIRECTIONS)[number];
 
 const directions = DIRECTIONS.reduce<{ [K in Dirs]?: number[] }>(
   (obj, key, i) => ({ ...obj, [key]: directionsVector[i] }),
-  {}
+  {},
 );
 
 class Knot {
@@ -31,7 +31,7 @@ class Knot {
     /** Distance from this knot to target knot */
     const distance = Math.max(
       Math.abs(this.x - targetKnot.x),
-      Math.abs(this.y - targetKnot.y)
+      Math.abs(this.y - targetKnot.y),
     );
 
     const canMoveThisKnot = distance > 1;

@@ -1,6 +1,6 @@
 import { existsSync, writeFile, mkdirSync } from 'fs';
 import { exec } from 'child_process';
-import { getPuzzle } from './helpers/getPuzzle';
+import { downloadPuzzle, downloadStory } from './helpers/api';
 
 const now = new Date();
 const thisDay = now.getDate();
@@ -9,57 +9,67 @@ const thisYear = now.getFullYear();
 
 const [, , day = thisDay, year = thisYear] = process.argv;
 
-const BOILERPLATE = `import { getInputForDay } from '../../helpers/getInputForDay';
-import { showTheResult } from '../../helpers/showTheResult';
-
-(async () =>  {
-  console.time('time');
-  const input = (await getInputForDay(__filename)).trim().split('\\n');
-
-  console.log(input);
-
-  showTheResult({ star1: 'WIP...', star2: 'WIP...', path: __filename });
-  console.timeEnd('time');
-})();
-`;
-
 const execDay = () => {
-  exec(
-    `ts-node solutions/year_${year}/day_${day}.ts`,
-    (error, stdout, stderr) => {
-      console.log(`\x1b[1;95m%s\x1b[0m`, stdout);
-      console.log(stderr);
+  exec(`tsx solutions/year_${year}/day_${day}.ts`, (error, stdout, stderr) => {
+    console.log(`\x1b[1;95m%s\x1b[0m`, stdout);
+    console.log(stderr);
 
-      if (error !== null) {
-        console.log(`exec error: ${error}`);
-      }
-    },
-  );
+    if (error !== null) {
+      console.log(`exec error: ${error}`);
+    }
+  });
 };
 
 const addBoilerPlate = (path: string) => {
+  const BOILERPLATE = `import { getInputForDay } from '../../helpers/getInputForDay';
+    import { showTheResult } from '../../helpers/showTheResult';
+
+    (async () =>  {
+      console.time('time');
+      const input = (await getInputForDay(__filename)).trim().split('\\n');
+
+      console.log(input);
+
+      showTheResult({ star1: 'WIP...', star2: 'WIP...', path: __filename });
+      console.timeEnd('time');
+    })();
+  `;
+
   writeFile(path, BOILERPLATE, execDay);
 };
 
 const go = async () => {
-  const solutionsDirFolderPath = `solutions/year_${year}`;
-  const inputsDirFolderPath = `inputs/year_${year}`;
-
-  if (!existsSync(solutionsDirFolderPath)) {
-    mkdirSync(solutionsDirFolderPath, { recursive: true });
+  // Check if the problem description and input files exist, if not download them
+  const problemDirFolderPath = `problems/year_${year}`;
+  if (!existsSync(problemDirFolderPath)) {
+    mkdirSync(problemDirFolderPath, { recursive: true });
+  }
+  const problemDayPath = `${problemDirFolderPath}/day_${day}.txt`;
+  if (!existsSync(problemDayPath)) {
+    await downloadStory({ day: +day, year: +year });
   }
 
+  // Check if the input file exists, if not download it
+  const inputsDirFolderPath = `inputs/year_${year}`;
   if (!existsSync(inputsDirFolderPath)) {
     mkdirSync(inputsDirFolderPath, { recursive: true });
   }
-
   const inputDayPath = `${inputsDirFolderPath}/day_${day}.in`;
+  if (!existsSync(inputDayPath)) {
+    await downloadPuzzle({ day: +day, year: +year });
+  }
 
-  !existsSync(inputDayPath) && (await getPuzzle(+day, +year));
-
+  // Check if the solution file exists, if not create it with boilerplate code
+  const solutionsDirFolderPath = `solutions/year_${year}`;
+  if (!existsSync(solutionsDirFolderPath)) {
+    mkdirSync(solutionsDirFolderPath, { recursive: true });
+  }
   const solutionDayPath = `${solutionsDirFolderPath}/day_${day}.ts`;
-
-  existsSync(solutionDayPath) ? execDay() : addBoilerPlate(solutionDayPath);
+  if (existsSync(solutionDayPath)) {
+    execDay();
+  } else {
+    addBoilerPlate(solutionDayPath);
+  }
 };
 
 (() => {
